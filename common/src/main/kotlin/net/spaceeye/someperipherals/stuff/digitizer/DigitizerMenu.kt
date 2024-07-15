@@ -21,14 +21,14 @@ class DigitizerMenu(id: Int, inv: Inventory, entity: BlockEntity, data: Containe
     var level: Level
     var data: ContainerData
 
-    constructor(id: Int, inv: Inventory, data: FriendlyByteBuf): this(id, inv, inv.player.level.getBlockEntity(data.readBlockPos())!!, SimpleContainerData(9))
+    constructor(id: Int, inv: Inventory, data: FriendlyByteBuf): this(id, inv, inv.player.level().getBlockEntity(data.readBlockPos())!!, SimpleContainerData(9))
 
     init {
         checkContainerSize(inv, 3)
         checkContainerDataCount(data, 8)
 
         blockEntity = entity as DigitizerBlockEntity
-        level = inv.player.level
+        level = inv.player.level()
         this.data = data
 
         addPlayerInventory(inv)

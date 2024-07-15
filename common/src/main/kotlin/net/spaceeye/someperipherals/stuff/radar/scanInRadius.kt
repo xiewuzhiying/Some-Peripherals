@@ -2,6 +2,7 @@ package net.spaceeye.someperipherals.stuff.radar
 
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.Mth
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.AABB
 import net.spaceeye.someperipherals.SomePeripherals
@@ -20,7 +21,7 @@ private fun getScanPos(level: Level, pos: BlockPos): BlockPos {
         val test = level.getShipManagingPos(pos)
         if (test != null) {
             val pos = test.toWorldCoordinates(pos)
-            return BlockPos(pos.x, pos.y, pos.z)
+            return BlockPos(Mth.floor(pos.x), Mth.floor(pos.y), Mth.floor(pos.z))
         }
         return pos
     }
@@ -42,7 +43,7 @@ private fun scanForPlayers(r: Double, level: ServerLevel, pos: BlockPos): Mutabl
     val pos = getScanPos(level, pos)
     val res = arrayListOf<Any>()
     for (player in level.server.playerList.players) {
-        if ( !(player.level.dimension() == level.dimension()
+        if ( !(player.level().dimension() == level.dimension()
             && AABB(
                 pos.x-r, pos.y-r, pos.z-r,
                 pos.x+r, pos.y+r, pos.z+r

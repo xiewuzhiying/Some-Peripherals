@@ -1,9 +1,9 @@
 package net.spaceeye.someperipherals.stuff.raycasting
 
-import com.mojang.math.Quaternion
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.Mth
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.level.Level
@@ -16,6 +16,7 @@ import net.spaceeye.someperipherals.SomePeripherals
 import net.spaceeye.someperipherals.SomePeripheralsConfig
 import net.spaceeye.someperipherals.stuff.BallisticFunctions.rad
 import net.spaceeye.someperipherals.stuff.utils.*
+import org.joml.Quaternionf
 import org.valkyrienskies.mod.common.getShipManagingPos
 import java.lang.Math.*
 
@@ -78,7 +79,7 @@ object RaycastFunctions {
         manager: PosManager,
         onlyDistance: Boolean
     ): Pair<Pair<BlockPos, IBlockRes>, Double>? {
-        val bpos = BlockPos(point.x, point.y, point.z)
+        val bpos = BlockPos(Mth.floor(point.x), Mth.floor(point.y), Mth.floor(point.z))
 
         if (SomePeripherals.has_arc) {
             if (!API.getIsSolidState(level, bpos)) { return null }
@@ -240,24 +241,24 @@ object RaycastFunctions {
         }
 
     //No idea how or why it works, don't use it anywhere else other than eulerRotationCalc
-    private fun quatToUnit(rot: Quaternion): Vector3d {
-        val quint = Quaternion(0f, 1f, 0f, 0f)
-        val rota = Quaternion(rot.i(), -rot.j(), -rot.k(), -rot.r())
+    private fun quatToUnit(rot: Quaternionf): Vector3d {
+        val quint = Quaternionf(0f, 1f, 0f, 0f)
+        val rota = Quaternionf(-rot.x(), -rot.y(), -rot.z(), rot.w())
         rot.mul(quint); rot.mul(rota)
         return Vector3d(
-            -rot.k().toDouble(),
-             rot.r().toDouble(),
-            -rot.j().toDouble()
+            -rot.x().toDouble(),
+             rot.y().toDouble(),
+            -rot.z().toDouble()
         )
     }
 
     @JvmStatic
-    fun eulerRotationCalc(direction: Quaternion, pitch_: Double, yaw_: Double): Vector3d {
+    fun eulerRotationCalc(direction: Quaternionf, pitch_: Double, yaw_: Double): Vector3d {
         val pitch = (if (pitch_ < 0) { max(pitch_, -PI/2) } else { min(pitch_, PI/2) })
         val yaw   = (if (yaw_ < 0)   { max(yaw_,   -PI/2) } else { min(yaw_  , PI/2) })
 
         //idk why roll is yaw, and it needs to be inverted so that +yaw is right and -yaw is left
-        val rotation = Quaternion(-yaw.toFloat(), pitch.toFloat(), 0f, false)
+        val rotation = Quaternionf().rotateXYZ(-yaw.toFloat(), pitch.toFloat(), 0f)
         direction.mul(rotation)
         return quatToUnit(direction)
     }
@@ -297,14 +298,14 @@ object RaycastFunctions {
     fun entityMakeRaycastObj(entity: LivingEntity, distance: Double, euler_mode: Boolean,
                              var1:Double, var2: Double, var3: Double, check_for_blocks_in_world: Boolean,
                              onlyDistance: Boolean): RaycastObj {
-        val level = entity.getLevel()
+        val level = entity.level()
         val start = Vector3d(entity.eyePosition)
 
         //https://gamedev.stackexchange.com/questions/190054/how-to-calculate-the-forward-up-right-vectors-using-the-rotation-angles
         val p = rad(entity.xRot.toDouble()) // picth
         val y =-rad(entity.yHeadRot.toDouble()) // yaw
         val unit_d = if (euler_mode) {
-            eulerRotationCalc(Quaternion.fromXYZ(y.toFloat(), -p.toFloat(), PI.toFloat()), var1, var2)
+            eulerRotationCalc(Quaternionf().rotateXYZ(y.toFloat(), -p.toFloat(), PI.toFloat()), var1, var2)
         } else {
             val up  = Vector3d(sin(p)*sin(y),  cos(p), sin(p)*cos(y))
             val dir = Vector3d(cos(p)*sin(y), -sin(p), cos(p)*cos(y))
@@ -325,12 +326,12 @@ object RaycastFunctions {
         var unit_d = if (euler_mode) {
             eulerRotationCalc(
                 when(be.blockState.getValue(BlockStateProperties.FACING)) {
-                    Direction.DOWN ->  Quaternion(0.707107f, 0f, -0.707107f, 0f)
-                    Direction.UP ->    Quaternion(0.707107f, 0f, 0.707107f, 0f)
-                    Direction.NORTH -> Quaternion(1f, 0f, 0f, 0f)
-                    Direction.EAST ->  Quaternion(0.707107f, 0f, 0f, 0.707107f)
-                    Direction.SOUTH -> Quaternion(0f, 0f, 0f, 1f)
-                    Direction.WEST ->  Quaternion(-0.707107f, 0f, 0f, 0.707107f)
+                    Direction.DOWN ->  Quaternionf(0.707107f, 0f, -0.707107f, 0f)
+                    Direction.UP ->    Quaternionf(0.707107f, 0f, 0.707107f, 0f)
+                    Direction.NORTH -> Quaternionf(1f, 0f, 0f, 0f)
+                    Direction.EAST ->  Quaternionf(0.707107f, 0f, 0f, 0.707107f)
+                    Direction.SOUTH -> Quaternionf(0f, 0f, 0f, 1f)
+                    Direction.WEST ->  Quaternionf(-0.707107f, 0f, 0f, 0.707107f)
                     null -> throw AssertionError("Direction is null, how.")
                 },
                 var1, var2)
@@ -345,7 +346,8 @@ object RaycastFunctions {
                 Direction.EAST ->  Vector3d(0, 1, 0)
                 null -> throw AssertionError("Direction is null, how.")
             }
-            val dir = Vector3d(dir_enum.step()).snormalize()
+            val vec = dir_enum.step().normalize()
+            val dir = Vector3d(vec.x(), vec.y(), vec.z())
             vectorRotationCalc(Pair(dir, dir.cross(up).scross(dir)), var1, var2, var3)
         }
 

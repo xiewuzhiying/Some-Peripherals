@@ -15,7 +15,7 @@ fun entityToMapGoggles(entity: Entity, s: SomePeripheralsConfig.Server.GogglesSe
     if(s.eye_pos) item["eye_pos"] = listOf(entity.eyePosition.x, entity.eyePosition.y, entity.eyePosition.z)
     if(s.eye_height) item["eye_height"] = entity.eyeHeight.toDouble()
     if(s.look_angle) item["look_angle"] = listOf(entity.lookAngle.x, entity.lookAngle.y, entity.lookAngle.z)
-    if(s.dimension) item["dimension"] = entity.level.dimension().toString()
+    if(s.dimension) item["dimension"] = entity.level().dimension().toString()
     if(s.entity_type) item["entity_type"] = entity.type.descriptionId
     if(s.air_supply) item["air_supply"] = entity.airSupply
     if(s.max_air_supply) item["max_air_supply"] = entity.maxAirSupply
@@ -56,7 +56,7 @@ fun entityToMapRadar(entity: Entity, s: SomePeripheralsConfig.Server.RadarSettin
     if(s.eye_pos) item["eye_pos"] = listOf(entity.eyePosition.x, entity.eyePosition.y, entity.eyePosition.z)
     if(s.eye_height) item["eye_height"] = entity.eyeHeight.toDouble()
     if(s.look_angle) item["look_angle"] = listOf(entity.lookAngle.x, entity.lookAngle.y, entity.lookAngle.z)
-    if(s.dimension) item["dimension"] = entity.level.dimension().toString()
+    if(s.dimension) item["dimension"] = entity.level().dimension().toString()
     if(s.entity_type) item["entity_type"] = entity.type.descriptionId
     if(s.air_supply) item["air_supply"] = entity.airSupply
     if(s.max_air_supply) item["max_air_supply"] = entity.maxAirSupply

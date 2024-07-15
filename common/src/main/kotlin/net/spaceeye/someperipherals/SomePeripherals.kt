@@ -1,6 +1,7 @@
 package net.spaceeye.someperipherals
 
 import dan200.computercraft.api.ComputerCraftAPI
+import dan200.computercraft.impl.Peripherals
 import dev.architectury.platform.Platform
 import dev.architectury.registry.menu.MenuRegistry
 import net.spaceeye.someperipherals.config.ConfigDelegateRegister
@@ -28,8 +29,6 @@ object SomePeripherals {
         SomePeripheralsBlockEntities.register()
         SomePeripheralsItems.register()
         SomePeripheralsMenu.register()
-
-        if (Platform.isModLoaded("computercraft")) { ComputerCraftAPI.registerPeripheralProvider(PlatformUtils.getPeripheralProvider()) }
     }
 
     @JvmStatic

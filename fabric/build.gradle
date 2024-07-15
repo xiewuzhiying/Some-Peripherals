@@ -39,7 +39,7 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    modCompileOnlyApi("org.valkyrienskies:valkyrienskies-118-fabric:${rootProject.vs2_version}") { transitive = false}
+    modCompileOnlyApi("org.valkyrienskies:valkyrienskies-120-fabric:${rootProject.vs2_version}") { transitive = false}
 
     // Kotlin
     modImplementation("net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10")
@@ -47,7 +47,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:1.9.10"
 
     // CC Restitched
-    modImplementation("curse.maven:cc-restitched-462672:3622561")
+    modImplementation("curse.maven:cctweaked-282001:5379174")
 
     implementation 'com.electronwill.night-config:core:3.6.3'
     implementation 'com.electronwill.night-config:toml:3.6.3'

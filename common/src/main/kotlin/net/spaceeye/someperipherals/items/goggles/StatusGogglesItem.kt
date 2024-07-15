@@ -2,26 +2,23 @@ package net.spaceeye.someperipherals.items.goggles
 
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterials
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
-import net.spaceeye.someperipherals.stuff.utils.entityToMapGoggles
-import net.spaceeye.someperipherals.blocks.SomePeripheralsCommonBlocks
 import net.spaceeye.someperipherals.SomePeripheralsConfig
-import net.spaceeye.someperipherals.SomePeripheralsItems
 import net.spaceeye.someperipherals.blockentities.GoggleLinkPortBlockEntity
+import net.spaceeye.someperipherals.blocks.SomePeripheralsCommonBlocks
 import net.spaceeye.someperipherals.stuff.linkPort.*
 import net.spaceeye.someperipherals.stuff.utils.Constants
-import java.util.UUID
+import net.spaceeye.someperipherals.stuff.utils.entityToMapGoggles
+import java.util.*
 
 open class StatusGogglesItem:
-    ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, Properties().tab(SomePeripheralsItems.TAB).stacksTo(1)) {
+    ArmorItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, Properties().stacksTo(1)) {
 
     protected open val base_name = "item.some_peripherals.tootlip.status_goggles"
     protected open val linked_name = "text.some_peripherals.linked_status_goggles"
@@ -32,7 +29,7 @@ open class StatusGogglesItem:
     protected var connection: LinkConnectionsManager? = null
 
     override fun getDescription(): Component {
-        return TranslatableComponent(base_name)
+        return Component.translatable(base_name)
     }
 
     protected open fun makeConnectionPing(): LinkPing {
@@ -75,7 +72,7 @@ open class StatusGogglesItem:
         val be = level.getBlockEntity(bpos)
         if (be !is GoggleLinkPortBlockEntity) {return super.useOn(context)}
         if (level.isClientSide) {
-            context.player!!.displayClientMessage(TranslatableComponent(linked_name), true)
+            context.player!!.displayClientMessage(Component.translatable(linked_name), true)
             return InteractionResult.SUCCESS
         }
 
@@ -91,7 +88,7 @@ open class StatusGogglesItem:
 
         item.setTag(nbt)
 
-        context.player!!.displayClientMessage(TranslatableComponent(linked_name), true)
+        context.player!!.displayClientMessage(Component.translatable(linked_name), true)
         return InteractionResult.SUCCESS
     }
 }

@@ -8,7 +8,7 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modCompileOnlyApi "dev.architectury:architectury:${rootProject.architectury_version}"
 
-    modApi("org.valkyrienskies:valkyrienskies-118-common:${rootProject.vs2_version}")
+    modApi("org.valkyrienskies:valkyrienskies-120-common:${rootProject.vs2_version}")
     compileOnly("org.valkyrienskies.core:api:${rootProject.vs_core_version}")
     compileOnly("org.valkyrienskies.core:api-game:${rootProject.vs_core_version}")
     compileOnly("org.valkyrienskies.core:util:${rootProject.vs_core_version}")
@@ -18,7 +18,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-reflect:1.9.10"
 
     // CC Restitched
-    modCompileOnly("curse.maven:cc-restitched-462672:3622561")
+    modImplementation("curse.maven:cctweaked-282001:5379174")
 
     modCompileOnly (files(accelerated_raycasting_path))
 }

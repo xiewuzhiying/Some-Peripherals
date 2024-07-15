@@ -20,25 +20,25 @@ credits="Contributors: Illuc, Tetrode, sashafiesta"
 [[dependencies.some_peripherals]]
    modId="forge" #mandatory
    mandatory=true #mandatory
-   versionRange="[38,)" #mandatory
+   versionRange="[47,)" #mandatory
    ordering="NONE"
    side="BOTH"
 [[dependencies.some_peripherals]]
    modId="minecraft"
    mandatory=true
-   versionRange="[1.18,1.19)"
+   versionRange="[1.20.1,)"
    ordering="NONE"
    side="BOTH"
 [[dependencies.some_peripherals]]
    modId="kotlinforforge"
    mandatory=true
-   versionRange="[3,)"
+   versionRange="[4,)"
    ordering="NONE"
    side="BOTH"
 [[dependencies.some_peripherals]]
    modId="architectury"
    mandatory=true
-   versionRange="[4.11.93,)"
+   versionRange="[9.2.14,)"
    ordering="NONE"
    side="BOTH"
 [[dependencies.some_peripherals]]

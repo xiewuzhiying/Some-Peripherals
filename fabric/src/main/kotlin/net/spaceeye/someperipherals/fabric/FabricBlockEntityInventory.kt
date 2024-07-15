@@ -2,6 +2,8 @@ package net.spaceeye.someperipherals.fabric
 
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
 import net.spaceeye.someperipherals.stuff.utils.CommonBlockEntityInventory
@@ -63,6 +65,10 @@ class ExtendedItemStackHandler(size: Int): ItemStackHandler(size) {
             stack,
             stack.count - limit
         ) else ItemStack.EMPTY
+    }
+
+    override fun iterator(): MutableIterator<StorageView<ItemVariant>> {
+        TODO("Not yet implemented")
     }
 }
 

@@ -5,6 +5,9 @@ import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.datafix.fixes.References
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntity
@@ -15,7 +18,7 @@ import net.spaceeye.someperipherals.blocks.SomePeripheralsCommonBlocks
 
 
 object CommonBlockEntities {
-    private val BLOCKENTITIES = DeferredRegister.create(SomePeripherals.MOD_ID, Registry.BLOCK_ENTITY_TYPE_REGISTRY)
+    private val BLOCKENTITIES = DeferredRegister.create(SomePeripherals.MOD_ID, Registries.BLOCK_ENTITY_TYPE)
 
     var RAYCASTER = SomePeripheralsCommonBlocks.RAYCASTER makePair ::RaycasterBlockEntity byName "raycaster"
     var GOOGLE_LINK_PORT = SomePeripheralsCommonBlocks.GOGGLE_LINK_PORT makePair ::GoggleLinkPortBlockEntity byName "goggle_link_port"

@@ -1,10 +1,9 @@
 package net.spaceeye.someperipherals
 
-import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.core.Registry
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.core.registries.Registries
+import net.minecraft.network.chat.Component
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -13,13 +12,7 @@ import net.spaceeye.someperipherals.items.goggles.RangeGogglesItem
 import net.spaceeye.someperipherals.items.goggles.StatusGogglesItem
 
 object SomePeripheralsItems {
-    val ITEMS = DeferredRegister.create(SomePeripherals.MOD_ID, Registry.ITEM_REGISTRY)
-    val TAB: CreativeModeTab = CreativeTabRegistry.create(
-        ResourceLocation(
-            SomePeripherals.MOD_ID,
-            "someperipherals_tab"
-        )
-    ) {ItemStack(LOGO.get())}
+    val ITEMS = DeferredRegister.create(SomePeripherals.MOD_ID, Registries.ITEM)
 
     var LOGO: RegistrySupplier<Item> = ITEMS.register("someperipherals_logo") { Item(Item.Properties()) }
 
@@ -30,5 +23,26 @@ object SomePeripheralsItems {
         SomePeripheralsBlocks.registerItems(ITEMS)
         SomePeripheralsCommonBlocks.registerItems(ITEMS)
         ITEMS.register()
+        CREATIVE_TAB.register()
+    }
+
+    val CREATIVE_TAB = DeferredRegister.create(SomePeripherals.MOD_ID, Registries.CREATIVE_MODE_TAB)
+
+    val TAB: RegistrySupplier<CreativeModeTab> by lazy {
+        CREATIVE_TAB.register(
+        SomePeripherals.MOD_ID, CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+            .title(Component.translatable("someperipherals_tab"))
+            .displayItems { _, output ->
+                ITEMS.forEach { e ->
+                    output.accept(
+                        e.get()
+                    )
+                }
+            }
+            .icon {
+                ItemStack(
+                    LOGO.get()
+                )
+            }::build)
     }
 }

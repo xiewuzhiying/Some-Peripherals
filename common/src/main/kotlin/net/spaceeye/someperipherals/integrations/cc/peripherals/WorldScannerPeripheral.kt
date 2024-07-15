@@ -4,6 +4,7 @@ import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaFunction
 import dan200.computercraft.api.peripheral.IPeripheral
 import net.minecraft.core.BlockPos
+import net.minecraft.util.Mth
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.spaceeye.someperipherals.SomePeripherals
@@ -77,7 +78,7 @@ class WorldScannerPeripheral(private val level: Level, private val pos: BlockPos
         val range = SomePeripheralsConfig.SERVER.WORLD_SCANNER_SETTINGS.max_allowed_range
         if (range >= 0 && sqrt(x*x+y*y+z*z) > range) { return makeErrorReturn("Block is outside of range") }
 
-        return makeResult(level.getBlockState(BlockPos(x + pos.x, y + pos.y, z + pos.z)))
+        return makeResult(level.getBlockState(BlockPos(Mth.floor(x + pos.x), Mth.floor(y + pos.y), Mth.floor(z + pos.z))))
     }
 
     @LuaFunction

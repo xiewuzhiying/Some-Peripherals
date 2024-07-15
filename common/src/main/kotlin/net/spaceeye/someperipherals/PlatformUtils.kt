@@ -1,6 +1,6 @@
 package net.spaceeye.someperipherals
 
-import dan200.computercraft.api.peripheral.IPeripheralProvider
+import dan200.computercraft.api.peripheral.IPeripheral
 import dev.architectury.injectables.annotations.ExpectPlatform
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.level.block.entity.BlockEntity
@@ -10,7 +10,7 @@ import net.spaceeye.someperipherals.stuff.utils.CommonBlockEntityInventory
 object PlatformUtils {
     @ExpectPlatform
     @JvmStatic
-    fun getPeripheralProvider(): IPeripheralProvider = throw AssertionError()
+    fun getPeripheralProvider(): IPeripheral = throw AssertionError()
 
     @ExpectPlatform
     @JvmStatic
